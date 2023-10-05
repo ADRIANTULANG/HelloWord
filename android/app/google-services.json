@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "868321469876",
+    "project_id": "teachlanguage-cbeb0",
+    "storage_bucket": "teachlanguage-cbeb0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:868321469876:android:d6d5b42a40b905bf39bee1",
+        "android_client_info": {
+          "package_name": "com.example.teachlang"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDyQXq5Hhz0QB2If2Tf9zZkBlLpyqH0_a0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
