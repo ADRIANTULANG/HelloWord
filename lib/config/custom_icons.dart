@@ -8,4 +8,5 @@ class CustomIcons {
   static String profilerperson = "assets/icons/profilerperson.svg";
   static String logout = "assets/icons/logout.svg";
   static String logoutnew = "assets/icons/logoutnew.svg";
+  static String adminaccount = "assets/icons/adminaccount.svg";
 }

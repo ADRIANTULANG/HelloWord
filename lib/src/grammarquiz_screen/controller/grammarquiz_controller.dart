@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:quiver/async.dart';
 import 'package:teachlang/model/grammar_model.dart';
@@ -21,6 +22,7 @@ class GrammarQuizController extends GetxController {
   RxInt current = 180.obs;
   RxInt start = 180.obs;
   RxString remainingTime = '00 : 00'.obs;
+  final GlobalKey alertDialogKey = GlobalKey();
 
   RxList<GrammarModel> grammarList = <GrammarModel>[].obs;
 
@@ -39,6 +41,24 @@ class GrammarQuizController extends GetxController {
       sub.cancel();
       submitAnswer();
     });
+  }
+
+  Future<bool> checkIfThereIsOpenDialog() async {
+    if (alertDialogKey.currentContext != null) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  getBack({required GrammarQuizController controller}) async {
+    if (isTaking.value == true) {
+      print("user did start the quiz and wants to navigate back");
+      GrammarQuizAlertDialog.showMessageAttemptToBack(controller: controller);
+    } else {
+      print("user did not start the quiz");
+      Get.back();
+    }
   }
 
   formattedTime({required int timeInSecond}) {
@@ -109,6 +129,9 @@ class GrammarQuizController extends GetxController {
     remainingTime.value = '00 : 00';
     current.value = 180;
     start.value = 180;
+    if (await checkIfThereIsOpenDialog() == true) {
+      Get.back();
+    }
     GrammarQuizAlertDialog.showMessage(
         score: correct_answer.toString(), over: grammarList.length.toString());
     Get.find<HomeController>().getScores();

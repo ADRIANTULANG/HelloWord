@@ -23,6 +23,7 @@ class SpellingQuizController extends GetxController {
   CarouselController carouselController = CarouselController();
   TextEditingController textInputedController = TextEditingController();
   RxBool isSubmitting = false.obs;
+  final GlobalKey alertDialogKey = GlobalKey();
   @override
   void onReady() {
     getSpellings();
@@ -32,6 +33,24 @@ class SpellingQuizController extends GetxController {
   @override
   void onClose() {
     super.onClose();
+  }
+
+  Future<bool> checkIfThereIsOpenDialog() async {
+    if (alertDialogKey.currentContext != null) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  getBack({required SpellingQuizController controller}) async {
+    if (isTaking.value == true) {
+      print("user did start the quiz and wants to navigate back");
+      SpellingQuizAlertDialog.showMessageAttemptToBack(controller: controller);
+    } else {
+      print("user did not start the quiz");
+      Get.back();
+    }
   }
 
   getSpellings() async {
@@ -134,6 +153,9 @@ class SpellingQuizController extends GetxController {
     remainingTime.value = '00 : 00';
     current.value = 180;
     start.value = 180;
+    if (await checkIfThereIsOpenDialog() == true) {
+      Get.back();
+    }
     SpellingQuizAlertDialog.showMessage(
         score: correct_answer.toString(), over: spellings.length.toString());
     Get.find<HomeController>().getScores();

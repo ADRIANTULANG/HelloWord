@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
+import 'package:teachlang/config/custom_icons.dart';
+import 'package:teachlang/src/login_screen/widget/login_alertdialog.dart';
 import '../../registration_screen/view/registration_view.dart';
 import '../controller/login_controller.dart';
 
@@ -132,10 +135,7 @@ class LoginView extends GetView<LoginController> {
               ),
             ),
             SizedBox(
-              height: 6.h,
-            ),
-            SizedBox(
-              height: 1.h,
+              height: 5.h,
             ),
             Padding(
               padding: EdgeInsets.only(left: 5.w, right: 5.w),
@@ -174,7 +174,47 @@ class LoginView extends GetView<LoginController> {
               ),
             ),
             SizedBox(
-              height: 1.h,
+              height: 2.h,
+            ),
+            Padding(
+              padding: EdgeInsets.only(left: 5.w, right: 5.w),
+              child: InkWell(
+                onTap: () async {
+                  LoginAlertdialog.showDialogAdminLogin(controller: controller);
+                },
+                child: Container(
+                  alignment: Alignment.center,
+                  height: 6.h,
+                  width: 100.w,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(color: Colors.black),
+                      color: Colors.white),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SvgPicture.asset(
+                          CustomIcons.adminaccount,
+                          width: 4.w,
+                          height: 4.h,
+                        ),
+                        SizedBox(
+                          width: 3.w,
+                        ),
+                        Text(
+                          "Continue as Admin",
+                          style: TextStyle(
+                              color: Colors.grey,
+                              fontSize: 11.sp,
+                              fontWeight: FontWeight.w700),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ),
             ),
           ],
         ),

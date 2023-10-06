@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:teachlang/src/adminhome_screen/view/adminhome_view.dart';
 
 import '../../home_screen/view/home_main_view.dart';
 import '../widget/login_alertdialog.dart';
@@ -106,6 +107,32 @@ class LoginController extends GetxController {
         });
       }
     } catch (e) {
+      print(e);
+    }
+  }
+
+  loginAdmin({required String code}) async {
+    try {
+      var res = await FirebaseFirestore.instance
+          .collection('admincode')
+          .where('isActive', isEqualTo: true)
+          .get();
+      var codes = res.docs;
+      bool isExist = false;
+      for (var i = 0; i < codes.length; i++) {
+        if (codes[i]['code'] == code) {
+          isExist = true;
+        }
+      }
+      if (isExist == true) {
+        Get.offAll(() => AdmiHomeView());
+      } else {
+        Get.snackbar("Message", "Code did not exist",
+            backgroundColor: Colors.red, colorText: Colors.white);
+      }
+    } catch (e) {
+      Get.snackbar("Message", "Something went wrong. Please try again later",
+          backgroundColor: Colors.red, colorText: Colors.white);
       print(e);
     }
   }
