@@ -12,7 +12,6 @@ import '../widget/grammarquiz_alertdialog.dart';
 class GrammarQuizController extends GetxController {
   @override
   void onReady() {
-    getGrammarsQuestions();
     super.onReady();
   }
 
@@ -23,8 +22,9 @@ class GrammarQuizController extends GetxController {
   RxInt start = 180.obs;
   RxString remainingTime = '00 : 00'.obs;
   final GlobalKey alertDialogKey = GlobalKey();
-
   RxList<GrammarModel> grammarList = <GrammarModel>[].obs;
+  RxString groupValueLanguage = ''.obs;
+  RxString groupValueDifficulty = ''.obs;
 
   startTimer() async {
     countDownTimer = await CountdownTimer(
@@ -69,11 +69,14 @@ class GrammarQuizController extends GetxController {
     return "$minute : $second";
   }
 
-  getGrammarsQuestions() async {
+  getGrammarsQuestions(
+      {required String difficulty, required String language}) async {
     List data = [];
     var res = await FirebaseFirestore.instance
         .collection('grammar')
         .where('isActive', isEqualTo: true)
+        .where('difficulty', isEqualTo: groupValueDifficulty.value)
+        .where('language', isEqualTo: groupValueLanguage.value)
         .get();
     var grammarResults = res.docs;
     for (var i = 0; i < grammarResults.length; i++) {
@@ -107,15 +110,20 @@ class GrammarQuizController extends GetxController {
       var isUserExist = await FirebaseFirestore.instance
           .collection('grammarscore')
           .where('user', isEqualTo: userDocumentReference)
+          .where('difficulty', isEqualTo: groupValueDifficulty.value)
+          .where('language', isEqualTo: groupValueLanguage.value)
           .get();
       // check if user has already score record in the spelling collection
       if (isUserExist.docs.length == 0) {
         var userDocumentReference = await FirebaseFirestore.instance
             .collection('users')
             .doc(userres.docs[0].id);
-        await FirebaseFirestore.instance
-            .collection('grammarscore')
-            .add({"user": userDocumentReference, "score": correct_answer});
+        await FirebaseFirestore.instance.collection('grammarscore').add({
+          "user": userDocumentReference,
+          "score": correct_answer,
+          "difficulty": groupValueDifficulty.value,
+          "language": groupValueLanguage.value,
+        });
       } else {
         // update the answer of the user.
         await FirebaseFirestore.instance

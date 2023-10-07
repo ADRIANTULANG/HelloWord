@@ -24,9 +24,10 @@ class SpellingQuizController extends GetxController {
   TextEditingController textInputedController = TextEditingController();
   RxBool isSubmitting = false.obs;
   final GlobalKey alertDialogKey = GlobalKey();
+  RxString groupValueLanguage = ''.obs;
+  RxString groupValueDifficulty = ''.obs;
   @override
   void onReady() {
-    getSpellings();
     super.onReady();
   }
 
@@ -53,10 +54,12 @@ class SpellingQuizController extends GetxController {
     }
   }
 
-  getSpellings() async {
+  getSpellings({required String difficulty, required String language}) async {
     var res = await FirebaseFirestore.instance
         .collection('spellings')
         .where('isActive', isEqualTo: true)
+        .where('difficulty', isEqualTo: groupValueDifficulty.value)
+        .where('language', isEqualTo: groupValueLanguage.value)
         .get();
     var spellingsResult = res.docs;
     List data = [];
@@ -131,15 +134,20 @@ class SpellingQuizController extends GetxController {
       var isUserExist = await FirebaseFirestore.instance
           .collection('spellingscore')
           .where('user', isEqualTo: userDocumentReference)
+          .where('difficulty', isEqualTo: groupValueDifficulty.value)
+          .where('language', isEqualTo: groupValueLanguage.value)
           .get();
       // check if user has already score record in the spelling collection
       if (isUserExist.docs.length == 0) {
         var userDocumentReference = await FirebaseFirestore.instance
             .collection('users')
             .doc(userres.docs[0].id);
-        await FirebaseFirestore.instance
-            .collection('spellingscore')
-            .add({"user": userDocumentReference, "score": correct_answer});
+        await FirebaseFirestore.instance.collection('spellingscore').add({
+          "user": userDocumentReference,
+          "score": correct_answer,
+          "difficulty": groupValueDifficulty.value,
+          "language": groupValueLanguage.value,
+        });
       } else {
         // update the answer of the user.
         await FirebaseFirestore.instance

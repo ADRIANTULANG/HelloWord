@@ -13,19 +13,27 @@ String grammarScoreToJson(List<GrammarScore> data) =>
 class GrammarScore {
   int score;
   User user;
+  String difficulty;
+  String language;
 
   GrammarScore({
     required this.score,
     required this.user,
+    required this.difficulty,
+    required this.language,
   });
 
   factory GrammarScore.fromJson(Map<String, dynamic> json) => GrammarScore(
         score: json["score"],
+        language: json["language"],
+        difficulty: json["difficulty"],
         user: User.fromJson(json["user"]),
       );
 
   Map<String, dynamic> toJson() => {
         "score": score,
+        "language": language,
+        "difficulty": difficulty,
         "user": user.toJson(),
       };
 }

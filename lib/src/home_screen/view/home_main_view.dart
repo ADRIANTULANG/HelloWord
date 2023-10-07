@@ -205,7 +205,7 @@ class HomeView extends GetView<HomeController> {
                     children: [
                       Obx(
                         () => Text(
-                          "${controller.current_leaderboard_view.value} Top Scores",
+                          "${controller.current_leaderboard_view.value} Quiz Scores",
                           style: Styles.header2,
                         ),
                       ),

@@ -14,19 +14,27 @@ String spellingScoreToJson(List<SpellingScore> data) =>
 class SpellingScore {
   int score;
   User user;
+  String difficulty;
+  String language;
 
   SpellingScore({
     required this.score,
     required this.user,
+    required this.difficulty,
+    required this.language,
   });
 
   factory SpellingScore.fromJson(Map<String, dynamic> json) => SpellingScore(
         score: json["score"],
+        language: json["language"],
+        difficulty: json["difficulty"],
         user: User.fromJson(json["user"]),
       );
 
   Map<String, dynamic> toJson() => {
         "score": score,
+        "language": language,
+        "difficulty": difficulty,
         "user": user.toJson(),
       };
 }

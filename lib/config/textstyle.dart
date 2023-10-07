@@ -17,6 +17,12 @@ class Styles {
     fontSize: 11.sp,
   );
 
+  static TextStyle small = TextStyle(
+    fontWeight: FontWeight.normal,
+    color: Colors.grey[300],
+    fontSize: 7.sp,
+  );
+
   static TextStyle normalFontSizeMedium = TextStyle(
     fontWeight: FontWeight.normal,
     fontSize: 14.sp,

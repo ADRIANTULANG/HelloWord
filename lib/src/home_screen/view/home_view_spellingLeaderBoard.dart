@@ -60,19 +60,30 @@ class HomeViewSpellingLeaderBoardView extends GetView<HomeController> {
                     SizedBox(
                       width: 4.w,
                     ),
-                    Text(
-                      controller.spellingsScoreList[index].user.firstname ==
-                                  "" &&
-                              controller.spellingsScoreList[index].user
-                                      .lastname ==
-                                  ""
-                          ? controller.spellingsScoreList[index].user.email
-                          : controller
-                                  .spellingsScoreList[index].user.firstname +
-                              " " +
-                              controller
-                                  .spellingsScoreList[index].user.lastname,
-                      style: Styles.normal,
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          controller.spellingsScoreList[index].user.firstname ==
+                                      "" &&
+                                  controller.spellingsScoreList[index].user
+                                          .lastname ==
+                                      ""
+                              ? controller.spellingsScoreList[index].user.email
+                              : controller.spellingsScoreList[index].user
+                                      .firstname +
+                                  " " +
+                                  controller
+                                      .spellingsScoreList[index].user.lastname,
+                          style: Styles.normal,
+                        ),
+                        Text(
+                          controller.spellingsScoreList[index].difficulty +
+                              " - " +
+                              controller.spellingsScoreList[index].language,
+                          style: Styles.small,
+                        )
+                      ],
                     ),
                   ],
                 ),

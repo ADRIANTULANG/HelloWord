@@ -56,16 +56,30 @@ class HomeViewGrammarLeaderBoardView extends GetView<HomeController> {
                     SizedBox(
                       width: 4.w,
                     ),
-                    Text(
-                      controller.grammarScoreList[index].user.firstname == "" &&
-                              controller
-                                      .grammarScoreList[index].user.lastname ==
-                                  ""
-                          ? controller.grammarScoreList[index].user.email
-                          : controller.grammarScoreList[index].user.firstname +
-                              " " +
-                              controller.grammarScoreList[index].user.lastname,
-                      style: Styles.normal,
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          controller.grammarScoreList[index].user.firstname ==
+                                      "" &&
+                                  controller.grammarScoreList[index].user
+                                          .lastname ==
+                                      ""
+                              ? controller.grammarScoreList[index].user.email
+                              : controller
+                                      .grammarScoreList[index].user.firstname +
+                                  " " +
+                                  controller
+                                      .grammarScoreList[index].user.lastname,
+                          style: Styles.normal,
+                        ),
+                        Text(
+                          controller.grammarScoreList[index].difficulty +
+                              " - " +
+                              controller.grammarScoreList[index].language,
+                          style: Styles.small,
+                        )
+                      ],
                     ),
                   ],
                 ),
