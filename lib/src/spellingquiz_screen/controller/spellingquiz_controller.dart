@@ -66,6 +66,7 @@ class SpellingQuizController extends GetxController {
     for (var i = 0; i < spellingsResult.length; i++) {
       Map mapData = spellingsResult[i].data();
       mapData['documentID'] = spellingsResult[i].id;
+      mapData.remove('dateCreate');
       data.add(mapData);
     }
     spellings.assignAll(await spellingsModelFromJson(jsonEncode(data)));

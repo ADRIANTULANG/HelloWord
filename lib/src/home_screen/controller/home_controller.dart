@@ -70,6 +70,7 @@ class HomeController extends GetxController {
     for (var i = 0; i < grammarResults.length; i++) {
       Map mapdata = grammarResults[i].data();
       mapdata['documentID'] = grammarResults[i].id;
+      mapdata.remove('dateCreate');
       data.add(mapdata);
     }
     grammarList.assignAll(await grammarModelFromJson(jsonEncode(data)));
@@ -85,6 +86,7 @@ class HomeController extends GetxController {
     for (var i = 0; i < spellingsResult.length; i++) {
       Map mapData = spellingsResult[i].data();
       mapData['documentID'] = spellingsResult[i].id;
+      mapData.remove('dateCreate');
       data.add(mapData);
     }
     spellings.assignAll(await spellingsModelFromJson(jsonEncode(data)));

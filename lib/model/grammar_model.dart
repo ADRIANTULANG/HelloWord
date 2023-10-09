@@ -18,6 +18,8 @@ class GrammarModel {
   List<String> options;
   bool isActive;
   String documentId;
+  String difficulty;
+  String language;
   RxString selectedAnswer;
 
   GrammarModel({
@@ -26,6 +28,8 @@ class GrammarModel {
     required this.options,
     required this.isActive,
     required this.documentId,
+    required this.difficulty,
+    required this.language,
     required this.selectedAnswer,
   });
 
@@ -35,12 +39,16 @@ class GrammarModel {
         options: List<String>.from(json["options"].map((x) => x)),
         isActive: json["isActive"],
         documentId: json["documentID"],
+        difficulty: json["difficulty"],
+        language: json["language"],
         selectedAnswer: "".obs,
       );
 
   Map<String, dynamic> toJson() => {
         "sentence": sentence,
         "answer": answer,
+        "difficulty": difficulty,
+        "language": language,
         "selectedAnswer": selectedAnswer,
         "options": List<dynamic>.from(options.map((x) => x)),
         "isActive": isActive,

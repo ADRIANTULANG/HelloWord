@@ -17,6 +17,8 @@ class SpellingsModel {
   bool isActive;
   String word;
   String documentId;
+  String difficulty;
+  String language;
   RxString inputedWord;
 
   SpellingsModel({
@@ -24,18 +26,24 @@ class SpellingsModel {
     required this.word,
     required this.documentId,
     required this.inputedWord,
+    required this.difficulty,
+    required this.language,
   });
 
   factory SpellingsModel.fromJson(Map<String, dynamic> json) => SpellingsModel(
         isActive: json["isActive"],
         word: json["word"],
         documentId: json["documentID"],
+        difficulty: json["difficulty"],
+        language: json["language"],
         inputedWord: "".obs,
       );
 
   Map<String, dynamic> toJson() => {
         "isActive": isActive,
         "inputedWord": inputedWord,
+        "difficulty": difficulty,
+        "language": language,
         "word": word,
         "documentID": documentId,
       };

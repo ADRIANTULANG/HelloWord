@@ -28,6 +28,11 @@ class Styles {
     fontSize: 14.sp,
   );
 
+  static TextStyle boldFontSizeMedium = TextStyle(
+    fontWeight: FontWeight.bold,
+    fontSize: 14.sp,
+  );
+
   static TextStyle normalBold = TextStyle(
     fontWeight: FontWeight.bold,
     fontSize: 11.sp,

@@ -72,6 +72,9 @@ class GrammarQuizController extends GetxController {
   getGrammarsQuestions(
       {required String difficulty, required String language}) async {
     List data = [];
+
+    print(groupValueDifficulty.value);
+    print(groupValueLanguage.value);
     var res = await FirebaseFirestore.instance
         .collection('grammar')
         .where('isActive', isEqualTo: true)
@@ -82,6 +85,7 @@ class GrammarQuizController extends GetxController {
     for (var i = 0; i < grammarResults.length; i++) {
       Map mapdata = grammarResults[i].data();
       mapdata['documentID'] = grammarResults[i].id;
+      mapdata.remove('dateCreate');
       data.add(mapdata);
     }
     grammarList.assignAll(await grammarModelFromJson(jsonEncode(data)));
