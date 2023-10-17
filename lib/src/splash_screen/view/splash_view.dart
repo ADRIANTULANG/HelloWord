@@ -16,7 +16,7 @@ class SplashView extends GetView<SplashController> {
         child: Container(
           height: 100.h,
           width: 100.w,
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
               color: Colors.white,
               image:
                   DecorationImage(image: AssetImage("assets/images/logo.png"))),

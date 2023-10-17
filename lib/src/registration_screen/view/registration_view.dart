@@ -14,7 +14,7 @@ class RegistrationView extends GetView<RegistrationController> {
       resizeToAvoidBottomInset: false,
       body: Obx(
         () => controller.isLoading.value == true
-            ? Container(
+            ? SizedBox(
                 height: 100.h,
                 width: 100.w,
                 child: Center(
@@ -38,7 +38,7 @@ class RegistrationView extends GetView<RegistrationController> {
                       child: Container(
                         height: 35.h,
                         width: 100.w,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                             image: DecorationImage(
                                 fit: BoxFit.contain,
                                 image: AssetImage("assets/images/logo.png"))),
@@ -91,11 +91,13 @@ class RegistrationView extends GetView<RegistrationController> {
                       child: InkWell(
                         onTap: () {
                           if (controller.email.text.isEmail == false) {
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(const SnackBar(
                               content: Text('Invalid email'),
                             ));
                           } else if (controller.password.text.length < 8) {
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(const SnackBar(
                               content: Text(
                                   'The password must be 8 characters long'),
                             ));

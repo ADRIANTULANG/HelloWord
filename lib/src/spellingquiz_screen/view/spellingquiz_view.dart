@@ -20,7 +20,7 @@ class SpellingQuizView extends GetView<SpellingQuizController> {
         body: SafeArea(
           child: Obx(
             () => controller.isSubmitting.value == true
-                ? Container(
+                ? SizedBox(
                     height: 100.h,
                     width: 100.w,
                     child: Center(
@@ -55,8 +55,8 @@ class SpellingQuizView extends GetView<SpellingQuizController> {
                           ),
                           Obx(
                             () => controller.isTaking.value == false
-                                ? SpellingQuizIntroductionView()
-                                : SpellingQuizTakingQuiz(),
+                                ? const SpellingQuizIntroductionView()
+                                : const SpellingQuizTakingQuiz(),
                           ),
                         ]),
                   ),

@@ -22,7 +22,7 @@ class HomeSpellingQuestionView extends GetView<HomeController> {
           border: Border.all(),
           color: Colors.white,
           borderRadius: BorderRadius.circular(8),
-          boxShadow: [
+          boxShadow: const [
             BoxShadow(
                 color: Colors.grey,
                 blurRadius: 5,
@@ -50,7 +50,7 @@ class HomeSpellingQuestionView extends GetView<HomeController> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Container(
+              SizedBox(
                 height: 7.h,
                 width: 55.w,
                 child: TextField(
@@ -76,7 +76,7 @@ class HomeSpellingQuestionView extends GetView<HomeController> {
                   height: 7.h,
                   width: 11.w,
                   decoration: BoxDecoration(
-                      boxShadow: [
+                      boxShadow: const [
                         BoxShadow(
                             color: Colors.grey,
                             blurRadius: 5,
@@ -86,7 +86,7 @@ class HomeSpellingQuestionView extends GetView<HomeController> {
                       border: Border.all(width: 2),
                       shape: BoxShape.circle,
                       color: Colors.lightBlue),
-                  child: Icon(Icons.check),
+                  child: const Icon(Icons.check),
                 ),
               )
             ],

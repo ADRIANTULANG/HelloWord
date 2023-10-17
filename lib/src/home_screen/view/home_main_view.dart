@@ -10,9 +10,9 @@ import '../../../config/textstyle.dart';
 import '../../grammarquiz_screen/view/grammarquiz_view.dart';
 import '../controller/home_controller.dart';
 import '../widget/home_view_drawer.dart';
-import 'home_view_grammarLeaderBoard.dart';
+import 'home_view_grammarleaderboard.dart';
 import 'home_view_grammarquestion.dart';
-import 'home_view_spellingLeaderBoard.dart';
+import 'home_view_spellingleaderboard.dart';
 
 class HomeView extends GetView<HomeController> {
   const HomeView({super.key});
@@ -24,7 +24,7 @@ class HomeView extends GetView<HomeController> {
       child: Scaffold(
         drawer: HomeScreenAppDrawer.showAppDrawer(controller: controller),
         body: SafeArea(
-            child: Container(
+            child: SizedBox(
           child: SingleChildScrollView(
             child: Column(children: [
               SizedBox(
@@ -56,7 +56,7 @@ class HomeView extends GetView<HomeController> {
                                         fit: BoxFit.cover,
                                         image: NetworkImage(
                                             controller.imageLink.value)),
-                                    boxShadow: [
+                                    boxShadow: const [
                                       BoxShadow(
                                           color: Colors.grey,
                                           blurRadius: 5,
@@ -85,7 +85,7 @@ class HomeView extends GetView<HomeController> {
                   children: [
                     InkWell(
                       onTap: () {
-                        Get.to(() => GrammarQuizView());
+                        Get.to(() => const GrammarQuizView());
                       },
                       child: Container(
                         height: 20.h,
@@ -94,7 +94,7 @@ class HomeView extends GetView<HomeController> {
                             border: Border.all(),
                             color: Colors.lightBlue,
                             borderRadius: BorderRadius.circular(8),
-                            boxShadow: [
+                            boxShadow: const [
                               BoxShadow(
                                   color: Colors.grey,
                                   blurRadius: 5,
@@ -118,7 +118,7 @@ class HomeView extends GetView<HomeController> {
                     ),
                     InkWell(
                       onTap: () {
-                        Get.to(() => SpellingQuizView());
+                        Get.to(() => const SpellingQuizView());
                       },
                       child: Container(
                         height: 20.h,
@@ -127,7 +127,7 @@ class HomeView extends GetView<HomeController> {
                             border: Border.all(),
                             color: Colors.lightBlue,
                             borderRadius: BorderRadius.circular(8),
-                            boxShadow: [
+                            boxShadow: const [
                               BoxShadow(
                                   color: Colors.grey,
                                   blurRadius: 5,
@@ -176,7 +176,7 @@ class HomeView extends GetView<HomeController> {
                       aspectRatio: 1.6,
                       enlargeCenterPage: true,
                       onPageChanged: (index, reason) {
-                        controller.current_index.value = index;
+                        controller.currentIndex.value = index;
                       },
                     ),
                     items: List.generate(
@@ -205,7 +205,7 @@ class HomeView extends GetView<HomeController> {
                     children: [
                       Obx(
                         () => Text(
-                          "${controller.current_leaderboard_view.value} Quiz Scores",
+                          "${controller.currentLeaderboardView.value} Quiz Scores",
                           style: Styles.header2,
                         ),
                       ),
@@ -226,11 +226,11 @@ class HomeView extends GetView<HomeController> {
               ),
               Padding(
                 padding: EdgeInsets.only(left: 5.w, right: 5.w),
-                child: Container(
+                child: SizedBox(
                   child: Obx(() =>
-                      controller.current_leaderboard_view.value == "Spelling"
-                          ? HomeViewSpellingLeaderBoardView()
-                          : HomeViewGrammarLeaderBoardView()),
+                      controller.currentLeaderboardView.value == "Spelling"
+                          ? const HomeViewSpellingLeaderBoardView()
+                          : const HomeViewGrammarLeaderBoardView()),
                 ),
               )
             ]),

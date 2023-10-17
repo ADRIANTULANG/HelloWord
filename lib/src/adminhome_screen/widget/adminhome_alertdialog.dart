@@ -42,9 +42,9 @@ class AdminHomeAlertDialog {
               TextButton(
                   onPressed: () {
                     if (type == "Grammar") {
-                      controller.grammar_deleteItem(documentID: documentID);
+                      controller.grammarDeleteItem(documentID: documentID);
                     } else {
-                      controller.spelling_deleteItem(documentID: documentID);
+                      controller.spellingDeleteItem(documentID: documentID);
                     }
                   },
                   child: Text(

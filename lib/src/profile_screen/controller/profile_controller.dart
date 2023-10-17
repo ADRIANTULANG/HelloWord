@@ -16,7 +16,7 @@ class ProfileController extends GetxController {
   }
 
   final ImagePicker picker = ImagePicker();
-  File? picked_image;
+  File? pickedImage;
   RxString imagePath = ''.obs;
   RxString filename = ''.obs;
   Uint8List? uint8list;
@@ -40,7 +40,7 @@ class ProfileController extends GetxController {
         .where('userid', isEqualTo: user!.uid)
         .limit(1)
         .get();
-    if (userres.docs.length > 0) {
+    if (userres.docs.isNotEmpty) {
       var userInfo = userres.docs[0].data();
       firstname.text = userInfo['firstname'];
       lastname.text = userInfo['lastname'];
@@ -55,18 +55,18 @@ class ProfileController extends GetxController {
   getImage() async {
     final XFile? image = await picker.pickImage(source: ImageSource.gallery);
     if (image != null) {
-      picked_image = File(image.path);
-      imagePath.value = picked_image!.path;
-      filename.value = picked_image!.path.split('/').last;
+      pickedImage = File(image.path);
+      imagePath.value = pickedImage!.path;
+      filename.value = pickedImage!.path.split('/').last;
       uint8list = Uint8List.fromList(File(imagePath.value).readAsBytesSync());
     }
   }
 
   upDateAcountInfo() async {
     isLoading(true);
-    if (picked_image != null) {
+    if (pickedImage != null) {
       final ref =
-          await FirebaseStorage.instance.ref().child("files/${filename.value}");
+          FirebaseStorage.instance.ref().child("files/${filename.value}");
       uploadTask = ref.putData(uint8list!);
       final snapshot = await uploadTask!.whenComplete(() {});
       imageLink.value = await snapshot.ref.getDownloadURL();
@@ -78,7 +78,7 @@ class ProfileController extends GetxController {
         .where('userid', isEqualTo: user!.uid)
         .limit(1)
         .get();
-    if (userres.docs.length > 0) {
+    if (userres.docs.isNotEmpty) {
       await FirebaseFirestore.instance
           .collection('users')
           .doc(userres.docs[0].id)

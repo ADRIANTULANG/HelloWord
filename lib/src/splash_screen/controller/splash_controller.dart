@@ -12,13 +12,13 @@ class SplashController extends GetxController {
   }
 
   navigatTo() async {
-    Timer(Duration(seconds: 3), () async {
+    Timer(const Duration(seconds: 3), () async {
       FirebaseAuth auth = FirebaseAuth.instance;
       User? user = auth.currentUser;
       if (user != null && user.emailVerified) {
-        Get.to(() => HomeView());
+        Get.offAll(() => const HomeView());
       } else {
-        Get.to(() => LoginView());
+        Get.offAll(() => const LoginView());
       }
     });
   }

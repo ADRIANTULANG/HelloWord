@@ -14,7 +14,7 @@ class LoginAlertdialog {
               return false;
             },
             child: Padding(
-              padding: EdgeInsets.all(5.0),
+              padding: const EdgeInsets.all(5.0),
               child: Container(
                   height: 8.h,
                   width: 60.w,
@@ -30,7 +30,7 @@ class LoginAlertdialog {
                       SizedBox(
                         height: 1.h,
                       ),
-                      Text("Loading...")
+                      const Text("Loading...")
                     ],
                   )),
             ),
@@ -59,7 +59,7 @@ class LoginAlertdialog {
               SizedBox(
                 height: 2.h,
               ),
-              Container(
+              SizedBox(
                 height: 7.h,
                 width: 100.w,
                 child: TextField(

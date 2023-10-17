@@ -11,17 +11,12 @@ class RegistrationController extends GetxController {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
   RxBool isLoading = false.obs;
-  @override
-  void onInit() {
-    super.onInit();
-  }
 
   signUpUser() async {
     try {
       isLoading(true);
       List<String> signInMethods =
           await auth.fetchSignInMethodsForEmail(email.text);
-      print(signInMethods);
       if (signInMethods.isNotEmpty) {
         Get.snackbar("Message", "Email already exist",
             backgroundColor: Colors.lightBlue, colorText: Colors.white);
@@ -39,7 +34,8 @@ class RegistrationController extends GetxController {
             backgroundColor: Colors.lightBlue, colorText: Colors.white);
       }
     } catch (e) {
-      print(e);
+      Get.snackbar(
+          "Message", "Something went wrong please try again later. $e");
     }
     isLoading(false);
   }
@@ -58,7 +54,8 @@ class RegistrationController extends GetxController {
         "fcmToken": ""
       });
     } catch (e) {
-      print(e);
+      Get.snackbar(
+          "Message", "Something went wrong please try again later. $e");
     }
   }
 
@@ -69,23 +66,24 @@ class RegistrationController extends GetxController {
       final GoogleSignInAuthentication? googleAuth =
           await googleUser?.authentication;
       if (googleAuth?.accessToken == null && googleAuth?.idToken == null) {
-        print("null ang access token ug idtoken");
+        // print("null ang access token ug idtoken");
       } else {
         var credential = GoogleAuthProvider.credential(
           accessToken: googleAuth?.accessToken,
           idToken: googleAuth?.idToken,
         );
-        print("access token: ${googleAuth?.accessToken}");
-        print("id token: ${googleAuth?.idToken}");
+        // print("access token: ${googleAuth?.accessToken}");
+        // print("id token: ${googleAuth?.idToken}");
         UserCredential? userCredential =
             await FirebaseAuth.instance.signInWithCredential(credential);
         await saveUserForGoogleSignIn(
             email: userCredential.user!.email.toString(),
             userid: userCredential.user!.uid);
-        Get.offAll(() => HomeView());
+        Get.offAll(() => const HomeView());
       }
     } catch (e) {
-      print("ERROR: $e");
+      Get.snackbar(
+          "Message", "Something went wrong please try again later. $e");
     }
     isLoading(false);
   }
@@ -98,7 +96,7 @@ class RegistrationController extends GetxController {
           .where('email', isEqualTo: email)
           .where("provider", isEqualTo: "gmail")
           .get();
-      if (res.docs.length == 0) {
+      if (res.docs.isEmpty) {
         await FirebaseFirestore.instance.collection('users').add({
           "userid": userid,
           "email": email,
@@ -112,7 +110,8 @@ class RegistrationController extends GetxController {
         });
       }
     } catch (e) {
-      print(e);
+      Get.snackbar(
+          "Message", "Something went wrong please try again later. $e");
     }
   }
 }

@@ -21,13 +21,13 @@ class AdminHomeSpellingUpdateItem extends GetView<AdminHomeController> {
 
   @override
   Widget build(BuildContext context) {
-    controller.spelling_itemText.text = word;
+    controller.spellingItemText.text = word;
     controller.groupValueDifficulty.value = difficultyGroupValue;
     controller.groupValueLanguage.value = languageGroupValue;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SafeArea(
-        child: Container(
+        child: SizedBox(
           height: 100.h,
           width: 100.w,
           child: Column(
@@ -60,7 +60,7 @@ class AdminHomeSpellingUpdateItem extends GetView<AdminHomeController> {
                 height: 7.h,
                 width: 100.w,
                 child: TextField(
-                  controller: controller.spelling_itemText,
+                  controller: controller.spellingItemText,
                   decoration: InputDecoration(
                     fillColor: Colors.lightBlue[50],
                     filled: true,
@@ -191,8 +191,8 @@ class AdminHomeSpellingUpdateItem extends GetView<AdminHomeController> {
           alignment: Alignment.center,
           child: InkWell(
             onTap: () async {
-              if (controller.spelling_itemText.text.isEmpty ||
-                  controller.spelling_itemText.text == "") {
+              if (controller.spellingItemText.text.isEmpty ||
+                  controller.spellingItemText.text == "") {
                 Get.snackbar("Message", "Please put item",
                     backgroundColor: Colors.red, colorText: Colors.white);
               } else if (controller.groupValueDifficulty.value == "") {
@@ -202,7 +202,7 @@ class AdminHomeSpellingUpdateItem extends GetView<AdminHomeController> {
                 Get.snackbar("Message", "Please select language.",
                     backgroundColor: Colors.red, colorText: Colors.white);
               } else {
-                controller.spelling_updateItem(documentID: documentID);
+                controller.spellingUpdateItem(documentID: documentID);
               }
             },
             child: Container(

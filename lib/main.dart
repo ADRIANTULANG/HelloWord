@@ -11,8 +11,8 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp();
-  await Get.put(StorageServices());
-  await Get.put(NotificationServices());
+  Get.put(StorageServices());
+  Get.put(NotificationServices());
 
   runApp(const MyApp());
 }
@@ -35,14 +35,9 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   void didChangeAppLifecycleState(AppLifecycleState state) async {
     super.didChangeAppLifecycleState(state);
     if (state == AppLifecycleState.detached) {
-      print("App is Detached");
     } else if (state == AppLifecycleState.paused) {
-      print("App is Paused");
     } else if (state == AppLifecycleState.resumed) {
-      print("App is Resumed");
-    } else if (state == AppLifecycleState.inactive) {
-      print("App is Inactive");
-    }
+    } else if (state == AppLifecycleState.inactive) {}
   }
 
   @override
@@ -60,7 +55,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         theme: ThemeData(
           primarySwatch: Colors.grey,
         ),
-        home: SplashView(),
+        home: const SplashView(),
       );
     });
   }

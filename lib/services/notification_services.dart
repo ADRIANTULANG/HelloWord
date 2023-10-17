@@ -46,12 +46,12 @@ class NotificationServices extends GetxService {
   Future<void> onForegroundMessage() async {
     FirebaseMessaging.onMessage.listen(
       (RemoteMessage message) {
-        print('Got a message whilst in the foreground!');
-        print('Message data: ${message.data}');
+        // print('Got a message whilst in the foreground!');
+        // print('Message data: ${message.data}');
 
         if (message.notification != null) {
-          print(
-              'Message also contained a notification: ${message.notification}');
+          // print(
+          //     'Message also contained a notification: ${message.notification}');
 
           // if (Get.find<StorageService>().storage.read("notificationSound") ==
           //     true) {
@@ -85,7 +85,7 @@ class NotificationServices extends GetxService {
 
   Future<bool> checkNotificationPermission() async {
     var res = await messaging.requestPermission();
-    print("notification status: ${res.authorizationStatus}");
+    // print("notification status: ${res.authorizationStatus}");
     if (res.authorizationStatus == AuthorizationStatus.authorized) {
       return true;
     } else {
@@ -125,7 +125,6 @@ class NotificationServices extends GetxService {
         .collection('users')
         .doc(Get.find<StorageServices>().storage.read("id"))
         .update({"fcmToken": token});
-    print('Generated device token: $token');
   }
 }
 
@@ -134,9 +133,9 @@ Future<void> onBackgroundMessage() async {
 }
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  print("Handling a background message: ${message.messageId}");
+  // print("Handling a background message: ${message.messageId}");
   if (message.notification != null) {
-    print('Message also contained a notification: ${message.notification}');
+    // print('Message also contained a notification: ${message.notification}');
 
     // if (Get.find<StorageService>().storage.read("notificationSound") ==
     //     true) {

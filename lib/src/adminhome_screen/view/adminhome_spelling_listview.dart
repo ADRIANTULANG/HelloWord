@@ -15,7 +15,7 @@ class HomeAdminSpellingListView extends GetView<AdminHomeController> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Container(
+        child: SizedBox(
           height: 100.h,
           width: 100.w,
           child: Column(
@@ -56,7 +56,7 @@ class HomeAdminSpellingListView extends GetView<AdminHomeController> {
                                     children: [
                                       SizedBox(
                                         child: Text(
-                                          (index + 1).toString() + ". ",
+                                          "${(index + 1).toString()}.",
                                           style: Styles.boldFontSizeMedium,
                                         ),
                                       ),
@@ -89,7 +89,7 @@ class HomeAdminSpellingListView extends GetView<AdminHomeController> {
                                                     color: Colors.black),
                                                 borderRadius:
                                                     BorderRadius.circular(8)),
-                                            child: Icon(Icons.delete)),
+                                            child: const Icon(Icons.delete)),
                                       ),
                                       SizedBox(
                                         width: 5.w,
@@ -121,7 +121,7 @@ class HomeAdminSpellingListView extends GetView<AdminHomeController> {
                                                     color: Colors.black),
                                                 borderRadius:
                                                     BorderRadius.circular(8)),
-                                            child: Icon(Icons.edit)),
+                                            child: const Icon(Icons.edit)),
                                       ),
                                     ],
                                   ),
@@ -154,7 +154,7 @@ class HomeAdminSpellingListView extends GetView<AdminHomeController> {
                               SizedBox(
                                 height: 2.h,
                               ),
-                              Divider()
+                              const Divider()
                             ],
                           ));
                     },
@@ -168,9 +168,9 @@ class HomeAdminSpellingListView extends GetView<AdminHomeController> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.lightBlue,
         onPressed: () {
-          Get.to(() => AdminHomeSpellingCreateItem());
+          Get.to(() => const AdminHomeSpellingCreateItem());
         },
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
     );
   }

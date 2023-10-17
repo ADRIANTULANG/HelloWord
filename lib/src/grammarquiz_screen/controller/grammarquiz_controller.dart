@@ -10,11 +10,6 @@ import 'package:teachlang/src/home_screen/controller/home_controller.dart';
 import '../widget/grammarquiz_alertdialog.dart';
 
 class GrammarQuizController extends GetxController {
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
   CountdownTimer? countDownTimer;
   RxBool isSubmitting = false.obs;
   RxBool isTaking = false.obs;
@@ -27,9 +22,9 @@ class GrammarQuizController extends GetxController {
   RxString groupValueDifficulty = ''.obs;
 
   startTimer() async {
-    countDownTimer = await CountdownTimer(
+    countDownTimer = CountdownTimer(
       Duration(seconds: start.value),
-      Duration(seconds: 1),
+      const Duration(seconds: 1),
     );
     var sub = countDownTimer!.listen(null);
     sub.onData((duration) {
@@ -37,7 +32,6 @@ class GrammarQuizController extends GetxController {
       remainingTime.value = formattedTime(timeInSecond: current.value);
     });
     sub.onDone(() {
-      print("Done");
       sub.cancel();
       submitAnswer();
     });
@@ -53,10 +47,10 @@ class GrammarQuizController extends GetxController {
 
   getBack({required GrammarQuizController controller}) async {
     if (isTaking.value == true) {
-      print("user did start the quiz and wants to navigate back");
+      // print("user did start the quiz and wants to navigate back");
       GrammarQuizAlertDialog.showMessageAttemptToBack(controller: controller);
     } else {
-      print("user did not start the quiz");
+      // print("user did not start the quiz");
       Get.back();
     }
   }
@@ -73,8 +67,6 @@ class GrammarQuizController extends GetxController {
       {required String difficulty, required String language}) async {
     List data = [];
 
-    print(groupValueDifficulty.value);
-    print(groupValueLanguage.value);
     var res = await FirebaseFirestore.instance
         .collection('grammar')
         .where('isActive', isEqualTo: true)
@@ -88,15 +80,15 @@ class GrammarQuizController extends GetxController {
       mapdata.remove('dateCreate');
       data.add(mapdata);
     }
-    grammarList.assignAll(await grammarModelFromJson(jsonEncode(data)));
+    grammarList.assignAll(grammarModelFromJson(jsonEncode(data)));
   }
 
   submitAnswer() async {
     isSubmitting(true);
-    int correct_answer = 0;
+    int correctAnswer = 0;
     for (var i = 0; i < grammarList.length; i++) {
       if (grammarList[i].answer == grammarList[i].selectedAnswer.value) {
-        correct_answer = correct_answer + 1;
+        correctAnswer = correctAnswer + 1;
       }
     }
     FirebaseAuth auth = FirebaseAuth.instance;
@@ -107,8 +99,8 @@ class GrammarQuizController extends GetxController {
         .limit(1)
         .get();
     // check if user exist in the users collection to get userDocumentReference
-    if (userres.docs.length > 0) {
-      var userDocumentReference = await FirebaseFirestore.instance
+    if (userres.docs.isNotEmpty) {
+      var userDocumentReference = FirebaseFirestore.instance
           .collection('users')
           .doc(userres.docs[0].id);
       var isUserExist = await FirebaseFirestore.instance
@@ -118,13 +110,13 @@ class GrammarQuizController extends GetxController {
           .where('language', isEqualTo: groupValueLanguage.value)
           .get();
       // check if user has already score record in the spelling collection
-      if (isUserExist.docs.length == 0) {
-        var userDocumentReference = await FirebaseFirestore.instance
+      if (isUserExist.docs.isNotEmpty) {
+        var userDocumentReference = FirebaseFirestore.instance
             .collection('users')
             .doc(userres.docs[0].id);
         await FirebaseFirestore.instance.collection('grammarscore').add({
           "user": userDocumentReference,
-          "score": correct_answer,
+          "score": correctAnswer,
           "difficulty": groupValueDifficulty.value,
           "language": groupValueLanguage.value,
         });
@@ -133,7 +125,7 @@ class GrammarQuizController extends GetxController {
         await FirebaseFirestore.instance
             .collection('grammarscore')
             .doc(isUserExist.docs[0].id)
-            .update({"score": correct_answer});
+            .update({"score": correctAnswer});
       }
     }
     isSubmitting(false);
@@ -145,7 +137,7 @@ class GrammarQuizController extends GetxController {
       Get.back();
     }
     GrammarQuizAlertDialog.showMessage(
-        score: correct_answer.toString(), over: grammarList.length.toString());
+        score: correctAnswer.toString(), over: grammarList.length.toString());
     Get.find<HomeController>().getScores();
   }
 

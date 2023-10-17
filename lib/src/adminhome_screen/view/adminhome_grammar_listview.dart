@@ -14,7 +14,7 @@ class HomeAdminGrammarListView extends GetView<AdminHomeController> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Container(
+        child: SizedBox(
           height: 100.h,
           width: 100.w,
           child: Column(
@@ -46,7 +46,7 @@ class HomeAdminGrammarListView extends GetView<AdminHomeController> {
                                 children: [
                                   SizedBox(
                                     child: Text(
-                                      (index + 1).toString() + ". ",
+                                      "${(index + 1).toString()}.",
                                       style: Styles.boldFontSizeMedium,
                                     ),
                                   ),
@@ -63,19 +63,17 @@ class HomeAdminGrammarListView extends GetView<AdminHomeController> {
                               SizedBox(
                                 height: 1.h,
                               ),
-                              Container(
+                              SizedBox(
                                 width: 100.w,
                                 child: ListView.builder(
                                   itemCount: controller
                                       .grammarList[index].options.length,
                                   shrinkWrap: true,
-                                  physics: NeverScrollableScrollPhysics(),
+                                  physics: const NeverScrollableScrollPhysics(),
                                   itemBuilder:
                                       (BuildContext context, int optionindex) {
                                     return Text(
-                                      "• " +
-                                          controller.grammarList[index]
-                                              .options[optionindex],
+                                      "• ${controller.grammarList[index].options[optionindex]}",
                                       style: Styles.normalFontSizeMedium,
                                     );
                                   },
@@ -143,7 +141,7 @@ class HomeAdminGrammarListView extends GetView<AdminHomeController> {
                                                 Border.all(color: Colors.black),
                                             borderRadius:
                                                 BorderRadius.circular(8)),
-                                        child: Icon(Icons.delete)),
+                                        child: const Icon(Icons.delete)),
                                   ),
                                   SizedBox(
                                     width: 5.w,
@@ -174,14 +172,14 @@ class HomeAdminGrammarListView extends GetView<AdminHomeController> {
                                                 Border.all(color: Colors.black),
                                             borderRadius:
                                                 BorderRadius.circular(8)),
-                                        child: Icon(Icons.edit)),
+                                        child: const Icon(Icons.edit)),
                                   ),
                                 ],
                               ),
                               SizedBox(
                                 height: 1.h,
                               ),
-                              Divider()
+                              const Divider()
                             ],
                           ),
                         );
@@ -197,9 +195,9 @@ class HomeAdminGrammarListView extends GetView<AdminHomeController> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.lightBlue,
         onPressed: () {
-          Get.to(() => AdminHomeGrammarCreateItem());
+          Get.to(() => const AdminHomeGrammarCreateItem());
         },
-        child: Icon(
+        child: const Icon(
           Icons.add,
           color: Colors.white,
         ),

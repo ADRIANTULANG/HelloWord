@@ -14,7 +14,7 @@ class HomeViewSpellingLeaderBoardView extends GetView<HomeController> {
       () => ListView.builder(
         itemCount: controller.spellingsScoreList.length,
         shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         itemBuilder: (BuildContext context, int index) {
           return Padding(
             padding: EdgeInsets.only(top: 1.h),
@@ -45,7 +45,7 @@ class HomeViewSpellingLeaderBoardView extends GetView<HomeController> {
                                         .spellingsScoreList[index]
                                         .user
                                         .imageUrl)),
-                            boxShadow: [
+                            boxShadow: const [
                               BoxShadow(
                                   color: Colors.grey,
                                   blurRadius: 5,
@@ -70,17 +70,11 @@ class HomeViewSpellingLeaderBoardView extends GetView<HomeController> {
                                           .lastname ==
                                       ""
                               ? controller.spellingsScoreList[index].user.email
-                              : controller.spellingsScoreList[index].user
-                                      .firstname +
-                                  " " +
-                                  controller
-                                      .spellingsScoreList[index].user.lastname,
+                              : "${controller.spellingsScoreList[index].user.firstname} ${controller.spellingsScoreList[index].user.lastname}",
                           style: Styles.normal,
                         ),
                         Text(
-                          controller.spellingsScoreList[index].difficulty +
-                              " - " +
-                              controller.spellingsScoreList[index].language,
+                          "${controller.spellingsScoreList[index].difficulty} - ${controller.spellingsScoreList[index].language}",
                           style: Styles.small,
                         )
                       ],

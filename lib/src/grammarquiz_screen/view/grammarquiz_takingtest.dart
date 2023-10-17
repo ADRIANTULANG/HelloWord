@@ -10,7 +10,7 @@ class GrammarQuizTakingTest extends GetView<GrammarQuizController> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       child: Column(
         children: [
           SizedBox(
@@ -27,7 +27,7 @@ class GrammarQuizTakingTest extends GetView<GrammarQuizController> {
           SizedBox(
             height: 2.h,
           ),
-          Container(
+          SizedBox(
             width: 100.w,
             height: 72.h,
             child: ListView.builder(
@@ -39,18 +39,16 @@ class GrammarQuizTakingTest extends GetView<GrammarQuizController> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        (index + 1).toString() +
-                            ". " +
-                            controller.grammarList[index].sentence,
+                        "${(index + 1).toString()}. ${controller.grammarList[index].sentence}",
                         style: Styles.normalFontSizeMedium,
                       ),
-                      Container(
+                      SizedBox(
                         width: 100.w,
                         child: ListView.builder(
                           itemCount:
                               controller.grammarList[index].options.length,
                           shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
+                          physics: const NeverScrollableScrollPhysics(),
                           itemBuilder: (BuildContext context, int optionindex) {
                             return Row(
                               children: [

@@ -23,7 +23,7 @@ class HomeController extends GetxController {
     super.onInit();
   }
 
-  RxInt current_index = 0.obs;
+  RxInt currentIndex = 0.obs;
   CarouselController carouselController = CarouselController();
   FlutterTts flutterTts = FlutterTts();
   TextEditingController textInputedController = TextEditingController();
@@ -32,7 +32,7 @@ class HomeController extends GetxController {
   RxList allQuestions = [].obs;
   RxList<GrammarScore> grammarScoreList = <GrammarScore>[].obs;
   RxList<SpellingScore> spellingsScoreList = <SpellingScore>[].obs;
-  RxString current_leaderboard_view = 'Grammar'.obs;
+  RxString currentLeaderboardView = 'Grammar'.obs;
 
   RxString imageLink =
       'https://firebasestorage.googleapis.com/v0/b/teachlanguage-cbeb0.appspot.com/o/profilenew.jpg?alt=media&token=e1b2e99f-faa7-494c-9b50-44a9434fa525&_gl=1*1a54zm7*_ga*MTgxNTgwMjk1OS4xNjk2MzA5NDc2*_ga_CW55HF8NVT*MTY5NjQ5ODQ3Ny4xMy4xLjE2OTY0OTkwODguNDEuMC4w'
@@ -41,7 +41,7 @@ class HomeController extends GetxController {
   logout() async {
     await FirebaseAuth.instance.signOut();
     await GoogleSignIn().signOut();
-    Get.offAll(() => LoginView());
+    Get.offAll(() => const LoginView());
   }
 
   getUser() async {
@@ -52,7 +52,7 @@ class HomeController extends GetxController {
         .where('userid', isEqualTo: user!.uid)
         .limit(1)
         .get();
-    if (userres.docs.length > 0) {
+    if (userres.docs.isNotEmpty) {
       var userInfo = userres.docs[0].data();
       if (userInfo['imageUrl'] != '') {
         imageLink.value = userInfo['imageUrl'];
@@ -73,7 +73,7 @@ class HomeController extends GetxController {
       mapdata.remove('dateCreate');
       data.add(mapdata);
     }
-    grammarList.assignAll(await grammarModelFromJson(jsonEncode(data)));
+    grammarList.assignAll(grammarModelFromJson(jsonEncode(data)));
   }
 
   getSpellings() async {
@@ -89,7 +89,7 @@ class HomeController extends GetxController {
       mapData.remove('dateCreate');
       data.add(mapData);
     }
-    spellings.assignAll(await spellingsModelFromJson(jsonEncode(data)));
+    spellings.assignAll(spellingsModelFromJson(jsonEncode(data)));
   }
 
   getScores() async {
@@ -107,10 +107,10 @@ class HomeController extends GetxController {
         mapGrammar['user'] = userMap.data();
         datagrammar.add(mapGrammar);
       }
-      grammarScoreList
-          .assignAll(await grammarScoreFromJson(jsonEncode(datagrammar)));
+      grammarScoreList.assignAll(grammarScoreFromJson(jsonEncode(datagrammar)));
     } on Exception catch (e) {
-      print("ERROR $e");
+      Get.snackbar(
+          "Message", "Something went wrong please try again later. $e");
     }
     var resspelling = await FirebaseFirestore.instance
         .collection('spellingscore')
@@ -124,7 +124,7 @@ class HomeController extends GetxController {
       dataspelling.add(mapSpelling);
     }
     spellingsScoreList
-        .assignAll(await spellingScoreFromJson(jsonEncode(dataspelling)));
+        .assignAll(spellingScoreFromJson(jsonEncode(dataspelling)));
   }
 
   combineQuestios() async {
@@ -160,11 +160,10 @@ class HomeController extends GetxController {
   }
 
   onchangedLeaderboardView() {
-    if (current_leaderboard_view.value == "Grammar") {
-      current_leaderboard_view.value = "Spelling";
+    if (currentLeaderboardView.value == "Grammar") {
+      currentLeaderboardView.value = "Spelling";
     } else {
-      current_leaderboard_view.value = "Grammar";
+      currentLeaderboardView.value = "Grammar";
     }
-    print(current_leaderboard_view.value);
   }
 }

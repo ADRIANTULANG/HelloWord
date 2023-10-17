@@ -44,7 +44,7 @@ class AdmiHomeView extends GetView<AdminHomeController> {
           padding: EdgeInsets.only(left: 5.w, right: 5.w),
           child: InkWell(
             onTap: () {
-              Get.to(() => HomeAdminGrammarListView());
+              Get.to(() => const HomeAdminGrammarListView());
             },
             child: Container(
               height: 20.h,
@@ -53,7 +53,7 @@ class AdmiHomeView extends GetView<AdminHomeController> {
                   border: Border.all(),
                   color: Colors.lightBlue,
                   borderRadius: BorderRadius.circular(8),
-                  boxShadow: [
+                  boxShadow: const [
                     BoxShadow(
                         color: Colors.grey,
                         blurRadius: 5,
@@ -83,7 +83,7 @@ class AdmiHomeView extends GetView<AdminHomeController> {
           padding: EdgeInsets.only(left: 5.w, right: 5.w),
           child: InkWell(
             onTap: () {
-              Get.to(() => HomeAdminSpellingListView());
+              Get.to(() => const HomeAdminSpellingListView());
             },
             child: Container(
               height: 20.h,
@@ -92,7 +92,7 @@ class AdmiHomeView extends GetView<AdminHomeController> {
                   border: Border.all(),
                   color: Colors.lightBlue,
                   borderRadius: BorderRadius.circular(8),
-                  boxShadow: [
+                  boxShadow: const [
                     BoxShadow(
                         color: Colors.grey,
                         blurRadius: 5,

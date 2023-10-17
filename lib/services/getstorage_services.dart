@@ -4,11 +4,6 @@ import 'package:get_storage/get_storage.dart';
 class StorageServices extends GetxController {
   final storage = GetStorage();
 
-  @override
-  void onInit() {
-    super.onInit();
-  }
-
   saveCredentials({
     required String id,
     required String password,

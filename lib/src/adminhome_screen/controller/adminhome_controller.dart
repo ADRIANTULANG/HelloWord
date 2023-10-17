@@ -21,10 +21,10 @@ class AdminHomeController extends GetxController {
   RxList<SpellingsModel> spellingList = <SpellingsModel>[].obs;
 
   TextEditingController optionText = TextEditingController();
-  TextEditingController grammar_itemText = TextEditingController();
+  TextEditingController grammarItemText = TextEditingController();
   TextEditingController answerText = TextEditingController();
 
-  TextEditingController spelling_itemText = TextEditingController();
+  TextEditingController spellingItemText = TextEditingController();
 
   RxString groupValueLanguage = ''.obs;
   RxString groupValueDifficulty = ''.obs;
@@ -42,7 +42,7 @@ class AdminHomeController extends GetxController {
       mapdata.remove('dateCreate');
       data.add(mapdata);
     }
-    grammarList.assignAll(await grammarModelFromJson(jsonEncode(data)));
+    grammarList.assignAll(grammarModelFromJson(jsonEncode(data)));
   }
 
   getSpellingItems() async {
@@ -58,10 +58,10 @@ class AdminHomeController extends GetxController {
       mapdata.remove('dateCreate');
       data.add(mapdata);
     }
-    spellingList.assignAll(await spellingsModelFromJson(jsonEncode(data)));
+    spellingList.assignAll(spellingsModelFromJson(jsonEncode(data)));
   }
 
-  grammar_saveItem() async {
+  grammarSaveItem() async {
     try {
       await FirebaseFirestore.instance.collection('grammar').add({
         "answer": answerText.text,
@@ -69,23 +69,24 @@ class AdminHomeController extends GetxController {
         "isActive": true,
         "language": groupValueLanguage.value,
         "options": optionsList,
-        "sentence": grammar_itemText.text,
+        "sentence": grammarItemText.text,
         "dateCreate": Timestamp.now()
       });
       answerText.clear();
       optionsList.clear();
       groupValueDifficulty.value = '';
       groupValueLanguage.value = '';
-      grammar_itemText.clear();
+      grammarItemText.clear();
       Get.snackbar("Message", "Item added",
           backgroundColor: Colors.green, colorText: Colors.white);
       getGrammarItems();
     } catch (e) {
-      print(e);
+      Get.snackbar(
+          "Message", "Something went wrong please try again later. $e");
     }
   }
 
-  grammar_updateItem({required String documentID}) async {
+  grammarUpdateItem({required String documentID}) async {
     try {
       await FirebaseFirestore.instance
           .collection('grammar')
@@ -96,7 +97,7 @@ class AdminHomeController extends GetxController {
         "isActive": true,
         "language": groupValueLanguage.value,
         "options": optionsList,
-        "sentence": grammar_itemText.text,
+        "sentence": grammarItemText.text,
       });
       getGrammarItems();
       Get.back();
@@ -104,15 +105,16 @@ class AdminHomeController extends GetxController {
       optionsList.clear();
       groupValueDifficulty.value = '';
       groupValueLanguage.value = '';
-      grammar_itemText.clear();
+      grammarItemText.clear();
       Get.snackbar("Message", "Item updated",
           backgroundColor: Colors.green, colorText: Colors.white);
     } catch (e) {
-      print(e);
+      Get.snackbar(
+          "Message", "Something went wrong please try again later. $e");
     }
   }
 
-  grammar_deleteItem({required String documentID}) async {
+  grammarDeleteItem({required String documentID}) async {
     try {
       await FirebaseFirestore.instance
           .collection('grammar')
@@ -123,32 +125,34 @@ class AdminHomeController extends GetxController {
       Get.snackbar("Message", "Item deleted",
           backgroundColor: Colors.green, colorText: Colors.white);
     } catch (e) {
-      print(e);
+      Get.snackbar(
+          "Message", "Something went wrong please try again later. $e");
     }
   }
 
-  spelling_saveItem() async {
+  spellingSaveItem() async {
     try {
       await FirebaseFirestore.instance.collection('spellings').add({
         "dateCreate": Timestamp.now(),
         "difficulty": groupValueDifficulty.value,
         "isActive": true,
         "language": groupValueLanguage.value,
-        "word": spelling_itemText.text,
+        "word": spellingItemText.text,
       });
 
       groupValueDifficulty.value = '';
       groupValueLanguage.value = '';
-      spelling_itemText.clear();
+      spellingItemText.clear();
       Get.snackbar("Message", "Item added",
           backgroundColor: Colors.green, colorText: Colors.white);
       getSpellingItems();
     } catch (e) {
-      print(e);
+      Get.snackbar(
+          "Message", "Something went wrong please try again later. $e");
     }
   }
 
-  spelling_updateItem({required String documentID}) async {
+  spellingUpdateItem({required String documentID}) async {
     try {
       await FirebaseFirestore.instance
           .collection('spellings')
@@ -156,21 +160,22 @@ class AdminHomeController extends GetxController {
           .update({
         "difficulty": groupValueDifficulty.value,
         "language": groupValueLanguage.value,
-        "word": spelling_itemText.text,
+        "word": spellingItemText.text,
       });
       Get.back();
       groupValueDifficulty.value = '';
       groupValueLanguage.value = '';
-      spelling_itemText.clear();
+      spellingItemText.clear();
       Get.snackbar("Message", "Item updated",
           backgroundColor: Colors.green, colorText: Colors.white);
       getSpellingItems();
     } catch (e) {
-      print(e);
+      Get.snackbar(
+          "Message", "Something went wrong please try again later. $e");
     }
   }
 
-  spelling_deleteItem({required String documentID}) async {
+  spellingDeleteItem({required String documentID}) async {
     try {
       await FirebaseFirestore.instance
           .collection('spellings')
@@ -181,7 +186,8 @@ class AdminHomeController extends GetxController {
       Get.snackbar("Message", "Item deleted",
           backgroundColor: Colors.green, colorText: Colors.white);
     } catch (e) {
-      print(e);
+      Get.snackbar(
+          "Message", "Something went wrong please try again later. $e");
     }
   }
 

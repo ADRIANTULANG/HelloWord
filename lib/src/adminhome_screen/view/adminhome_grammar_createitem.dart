@@ -15,7 +15,7 @@ class AdminHomeGrammarCreateItem extends GetView<AdminHomeController> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SafeArea(
-        child: Container(
+        child: SizedBox(
           height: 100.h,
           width: 100.w,
           child: Column(
@@ -48,7 +48,7 @@ class AdminHomeGrammarCreateItem extends GetView<AdminHomeController> {
                 height: 18.h,
                 width: 100.w,
                 child: TextField(
-                  controller: controller.grammar_itemText,
+                  controller: controller.grammarItemText,
                   maxLines: 15,
                   decoration: InputDecoration(
                     fillColor: Colors.lightBlue[50],
@@ -72,13 +72,13 @@ class AdminHomeGrammarCreateItem extends GetView<AdminHomeController> {
               ),
               Padding(
                 padding: EdgeInsets.only(left: 5.w, right: 5.w),
-                child: Container(
+                child: SizedBox(
                   height: 7.h,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Container(
+                      SizedBox(
                         height: 6.h,
                         width: 70.w,
                         child: TextField(
@@ -116,7 +116,7 @@ class AdminHomeGrammarCreateItem extends GetView<AdminHomeController> {
                                 color: Colors.lightBlue,
                                 border: Border.all(color: Colors.black),
                                 borderRadius: BorderRadius.circular(8)),
-                            child: Icon(Icons.add)),
+                            child: const Icon(Icons.add)),
                       ),
                     ],
                   ),
@@ -124,7 +124,7 @@ class AdminHomeGrammarCreateItem extends GetView<AdminHomeController> {
               ),
               Padding(
                 padding: EdgeInsets.only(left: 5.w),
-                child: Container(
+                child: SizedBox(
                   height: 7.h,
                   width: 100.w,
                   child: Obx(
@@ -140,7 +140,7 @@ class AdminHomeGrammarCreateItem extends GetView<AdminHomeController> {
                             },
                             child: Chip(
                               backgroundColor: Colors.lightBlue[100],
-                              avatar: CircleAvatar(
+                              avatar: const CircleAvatar(
                                 backgroundColor: Colors.red,
                                 child: Icon(Icons.clear),
                               ),
@@ -304,8 +304,8 @@ class AdminHomeGrammarCreateItem extends GetView<AdminHomeController> {
               if (controller.optionsList.length < 2) {
                 Get.snackbar("Message", "Invalid number of options.",
                     backgroundColor: Colors.red, colorText: Colors.white);
-              } else if (controller.grammar_itemText.text.isEmpty ||
-                  controller.grammar_itemText.text == "") {
+              } else if (controller.grammarItemText.text.isEmpty ||
+                  controller.grammarItemText.text == "") {
                 Get.snackbar("Message", "Please put item",
                     backgroundColor: Colors.red, colorText: Colors.white);
               } else if (controller.groupValueDifficulty.value == "") {
@@ -315,7 +315,7 @@ class AdminHomeGrammarCreateItem extends GetView<AdminHomeController> {
                 Get.snackbar("Message", "Please select language.",
                     backgroundColor: Colors.red, colorText: Colors.white);
               } else {
-                controller.grammar_saveItem();
+                controller.grammarSaveItem();
               }
             },
             child: Container(

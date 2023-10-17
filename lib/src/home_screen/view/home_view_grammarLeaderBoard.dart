@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
+import 'package:flutter/material.dart';
 
 import '../../../config/textstyle.dart';
 import '../controller/home_controller.dart';
@@ -14,7 +14,7 @@ class HomeViewGrammarLeaderBoardView extends GetView<HomeController> {
       () => ListView.builder(
         itemCount: controller.grammarScoreList.length,
         shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         itemBuilder: (BuildContext context, int index) {
           return Padding(
             padding: EdgeInsets.only(top: 1.h),
@@ -42,7 +42,7 @@ class HomeViewGrammarLeaderBoardView extends GetView<HomeController> {
                                   ? NetworkImage(controller.imageLink.value)
                                   : NetworkImage(controller
                                       .grammarScoreList[index].user.imageUrl)),
-                          boxShadow: [
+                          boxShadow: const [
                             BoxShadow(
                                 color: Colors.grey,
                                 blurRadius: 5,
@@ -66,17 +66,11 @@ class HomeViewGrammarLeaderBoardView extends GetView<HomeController> {
                                           .lastname ==
                                       ""
                               ? controller.grammarScoreList[index].user.email
-                              : controller
-                                      .grammarScoreList[index].user.firstname +
-                                  " " +
-                                  controller
-                                      .grammarScoreList[index].user.lastname,
+                              : "${controller.grammarScoreList[index].user.firstname} ${controller.grammarScoreList[index].user.lastname}",
                           style: Styles.normal,
                         ),
                         Text(
-                          controller.grammarScoreList[index].difficulty +
-                              " - " +
-                              controller.grammarScoreList[index].language,
+                          "${controller.grammarScoreList[index].difficulty} - ${controller.grammarScoreList[index].language}",
                           style: Styles.small,
                         )
                       ],

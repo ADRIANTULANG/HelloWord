@@ -17,7 +17,7 @@ class SpellingQuizController extends GetxController {
   RxInt current = 180.obs;
   RxInt start = 180.obs;
   RxString remainingTime = '00 : 00'.obs;
-  RxInt current_index = 0.obs;
+  RxInt currentIndex = 0.obs;
   RxList<SpellingsModel> spellings = <SpellingsModel>[].obs;
   CountdownTimer? countDownTimer;
   CarouselController carouselController = CarouselController();
@@ -26,15 +26,6 @@ class SpellingQuizController extends GetxController {
   final GlobalKey alertDialogKey = GlobalKey();
   RxString groupValueLanguage = ''.obs;
   RxString groupValueDifficulty = ''.obs;
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
 
   Future<bool> checkIfThereIsOpenDialog() async {
     if (alertDialogKey.currentContext != null) {
@@ -46,10 +37,10 @@ class SpellingQuizController extends GetxController {
 
   getBack({required SpellingQuizController controller}) async {
     if (isTaking.value == true) {
-      print("user did start the quiz and wants to navigate back");
+      // print("user did start the quiz and wants to navigate back");
       SpellingQuizAlertDialog.showMessageAttemptToBack(controller: controller);
     } else {
-      print("user did not start the quiz");
+      // print("user did not start the quiz");
       Get.back();
     }
   }
@@ -69,7 +60,7 @@ class SpellingQuizController extends GetxController {
       mapData.remove('dateCreate');
       data.add(mapData);
     }
-    spellings.assignAll(await spellingsModelFromJson(jsonEncode(data)));
+    spellings.assignAll(spellingsModelFromJson(jsonEncode(data)));
   }
 
   // populateSpellings() async {
@@ -82,9 +73,9 @@ class SpellingQuizController extends GetxController {
   // }
 
   startTimer() async {
-    countDownTimer = await CountdownTimer(
+    countDownTimer = CountdownTimer(
       Duration(seconds: start.value),
-      Duration(seconds: 1),
+      const Duration(seconds: 1),
     );
     var sub = countDownTimer!.listen(null);
     sub.onData((duration) {
@@ -92,7 +83,6 @@ class SpellingQuizController extends GetxController {
       remainingTime.value = formattedTime(timeInSecond: current.value);
     });
     sub.onDone(() {
-      print("Done");
       sub.cancel();
       submitAnswer();
     });
@@ -113,11 +103,11 @@ class SpellingQuizController extends GetxController {
 
   submitAnswer() async {
     isSubmitting(true);
-    int correct_answer = 0;
+    int correctAnswer = 0;
     for (var i = 0; i < spellings.length; i++) {
       if (spellings[i].word.toLowerCase().trim().toString() ==
           spellings[i].inputedWord.toLowerCase().trim().toString()) {
-        correct_answer = correct_answer + 1;
+        correctAnswer = correctAnswer + 1;
       }
     }
     FirebaseAuth auth = FirebaseAuth.instance;
@@ -128,8 +118,8 @@ class SpellingQuizController extends GetxController {
         .limit(1)
         .get();
     // check if user exist in the users collection to get userDocumentReference
-    if (userres.docs.length > 0) {
-      var userDocumentReference = await FirebaseFirestore.instance
+    if (userres.docs.isNotEmpty) {
+      var userDocumentReference = FirebaseFirestore.instance
           .collection('users')
           .doc(userres.docs[0].id);
       var isUserExist = await FirebaseFirestore.instance
@@ -139,13 +129,13 @@ class SpellingQuizController extends GetxController {
           .where('language', isEqualTo: groupValueLanguage.value)
           .get();
       // check if user has already score record in the spelling collection
-      if (isUserExist.docs.length == 0) {
-        var userDocumentReference = await FirebaseFirestore.instance
+      if (isUserExist.docs.isEmpty) {
+        var userDocumentReference = FirebaseFirestore.instance
             .collection('users')
             .doc(userres.docs[0].id);
         await FirebaseFirestore.instance.collection('spellingscore').add({
           "user": userDocumentReference,
-          "score": correct_answer,
+          "score": correctAnswer,
           "difficulty": groupValueDifficulty.value,
           "language": groupValueLanguage.value,
         });
@@ -154,7 +144,7 @@ class SpellingQuizController extends GetxController {
         await FirebaseFirestore.instance
             .collection('spellingscore')
             .doc(isUserExist.docs[0].id)
-            .update({"score": correct_answer});
+            .update({"score": correctAnswer});
       }
     }
     isSubmitting(false);
@@ -166,7 +156,7 @@ class SpellingQuizController extends GetxController {
       Get.back();
     }
     SpellingQuizAlertDialog.showMessage(
-        score: correct_answer.toString(), over: spellings.length.toString());
+        score: correctAnswer.toString(), over: spellings.length.toString());
     Get.find<HomeController>().getScores();
   }
 }

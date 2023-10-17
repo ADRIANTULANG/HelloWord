@@ -20,7 +20,7 @@ class GrammarQuizView extends GetView<GrammarQuizController> {
         body: SafeArea(
           child: Obx(
             () => controller.isSubmitting.value == true
-                ? Container(
+                ? SizedBox(
                     height: 100.h,
                     width: 100.w,
                     child: Center(
@@ -55,8 +55,8 @@ class GrammarQuizView extends GetView<GrammarQuizController> {
                           ),
                           Obx(
                             () => controller.isTaking.value == false
-                                ? GrammarQuizIntroductionView()
-                                : GrammarQuizTakingTest(),
+                                ? const GrammarQuizIntroductionView()
+                                : const GrammarQuizTakingTest(),
                           ),
                         ]),
                   ),

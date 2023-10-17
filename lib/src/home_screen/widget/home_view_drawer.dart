@@ -17,7 +17,7 @@ class HomeScreenAppDrawer {
           SizedBox(
             height: 5.h,
           ),
-          Container(
+          SizedBox(
               height: 15.h,
               width: 100.w,
               child: Image.asset("assets/images/logo.png")),
@@ -31,9 +31,9 @@ class HomeScreenAppDrawer {
               height: 4.h,
               width: 4.w,
             ),
-            title: Text('Profile'),
+            title: const Text('Profile'),
             onTap: () {
-              Get.to(() => ProfileView());
+              Get.to(() => const ProfileView());
             },
           ),
           ListTile(
@@ -43,7 +43,7 @@ class HomeScreenAppDrawer {
               height: 3.5.h,
               width: 3.5.w,
             ),
-            title: Text('Log out'),
+            title: const Text('Log out'),
             onTap: () async {
               Get.back();
               HomeScreenAlertDialog.showLogoutConfirmation(

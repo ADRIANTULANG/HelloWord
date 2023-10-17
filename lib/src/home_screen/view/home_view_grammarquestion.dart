@@ -21,7 +21,7 @@ class HomeGrammarQuestionView extends GetView<HomeController> {
           border: Border.all(),
           color: Colors.white,
           borderRadius: BorderRadius.circular(8),
-          boxShadow: [
+          boxShadow: const [
             BoxShadow(
                 color: Colors.grey,
                 blurRadius: 5,
@@ -29,8 +29,8 @@ class HomeGrammarQuestionView extends GetView<HomeController> {
                 offset: Offset(1, 2))
           ]),
       child: Obx(
-        () => controller.current_index.value != index
-            ? SizedBox()
+        () => controller.currentIndex.value != index
+            ? const SizedBox()
             : Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -38,12 +38,12 @@ class HomeGrammarQuestionView extends GetView<HomeController> {
                     grammarQuetion.sentence,
                     style: Styles.normal,
                   ),
-                  Container(
+                  SizedBox(
                     width: 100.w,
                     child: ListView.builder(
                       itemCount: grammarQuetion.options.length,
                       shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
+                      physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (BuildContext context, int optionindex) {
                         return Row(
                           children: [

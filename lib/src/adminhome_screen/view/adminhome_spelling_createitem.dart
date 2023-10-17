@@ -15,7 +15,7 @@ class AdminHomeSpellingCreateItem extends GetView<AdminHomeController> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SafeArea(
-        child: Container(
+        child: SizedBox(
           height: 100.h,
           width: 100.w,
           child: Column(
@@ -48,7 +48,7 @@ class AdminHomeSpellingCreateItem extends GetView<AdminHomeController> {
                 height: 7.h,
                 width: 100.w,
                 child: TextField(
-                  controller: controller.spelling_itemText,
+                  controller: controller.spellingItemText,
                   decoration: InputDecoration(
                     fillColor: Colors.lightBlue[50],
                     filled: true,
@@ -179,8 +179,8 @@ class AdminHomeSpellingCreateItem extends GetView<AdminHomeController> {
           alignment: Alignment.center,
           child: InkWell(
             onTap: () async {
-              if (controller.spelling_itemText.text.isEmpty ||
-                  controller.spelling_itemText.text == "") {
+              if (controller.spellingItemText.text.isEmpty ||
+                  controller.spellingItemText.text == "") {
                 Get.snackbar("Message", "Please put item",
                     backgroundColor: Colors.red, colorText: Colors.white);
               } else if (controller.groupValueDifficulty.value == "") {
@@ -190,7 +190,7 @@ class AdminHomeSpellingCreateItem extends GetView<AdminHomeController> {
                 Get.snackbar("Message", "Please select language.",
                     backgroundColor: Colors.red, colorText: Colors.white);
               } else {
-                controller.spelling_saveItem();
+                controller.spellingSaveItem();
               }
             },
             child: Container(

@@ -12,10 +12,6 @@ class LoginController extends GetxController {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
   FirebaseAuth auth = FirebaseAuth.instance;
-  @override
-  void onInit() {
-    super.onInit();
-  }
 
   login() async {
     LoginAlertdialog.showLoadingDialog();
@@ -24,7 +20,7 @@ class LoginController extends GetxController {
           email: email.text, password: password.text);
       var user = auth.currentUser!;
       if (user.emailVerified) {
-        Get.offAll(() => HomeView());
+        Get.offAll(() => const HomeView());
       } else {
         Get.back();
         Get.snackbar("Message",
@@ -64,25 +60,26 @@ class LoginController extends GetxController {
       final GoogleSignInAuthentication? googleAuth =
           await googleUser?.authentication;
       if (googleAuth?.accessToken == null && googleAuth?.idToken == null) {
-        print("null ang access token ug idtoken");
+        // print("null ang access token ug idtoken");
         Get.back();
       } else {
         var credential = GoogleAuthProvider.credential(
           accessToken: googleAuth?.accessToken,
           idToken: googleAuth?.idToken,
         );
-        print("access token: ${googleAuth?.accessToken}");
-        print("id token: ${googleAuth?.idToken}");
+        // print("access token: ${googleAuth?.accessToken}");
+        // print("id token: ${googleAuth?.idToken}");
         UserCredential? userCredential =
             await FirebaseAuth.instance.signInWithCredential(credential);
         await saveUser(
             email: userCredential.user!.email.toString(),
             userid: userCredential.user!.uid);
-        Get.offAll(() => HomeView());
+        Get.offAll(() => const HomeView());
       }
     } catch (e) {
       Get.back();
-      print("ERROR: $e");
+      Get.snackbar(
+          "Message", "Something went wrong please try again later. $e");
     }
   }
 
@@ -93,7 +90,7 @@ class LoginController extends GetxController {
           .where('email', isEqualTo: email)
           .where("provider", isEqualTo: "gmail")
           .get();
-      if (res.docs.length == 0) {
+      if (res.docs.isEmpty) {
         await FirebaseFirestore.instance.collection('users').add({
           "userid": userid,
           "email": email,
@@ -107,7 +104,8 @@ class LoginController extends GetxController {
         });
       }
     } catch (e) {
-      print(e);
+      Get.snackbar(
+          "Message", "Something went wrong please try again later. $e");
     }
   }
 
@@ -125,15 +123,15 @@ class LoginController extends GetxController {
         }
       }
       if (isExist == true) {
-        Get.offAll(() => AdmiHomeView());
+        Get.offAll(() => const AdmiHomeView());
       } else {
         Get.snackbar("Message", "Code did not exist",
             backgroundColor: Colors.red, colorText: Colors.white);
       }
     } catch (e) {
-      Get.snackbar("Message", "Something went wrong. Please try again later",
+      Get.snackbar(
+          "Message", "Something went wrong. Please try again later. $e",
           backgroundColor: Colors.red, colorText: Colors.white);
-      print(e);
     }
   }
 }

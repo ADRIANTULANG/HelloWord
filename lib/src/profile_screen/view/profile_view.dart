@@ -14,7 +14,7 @@ class ProfileView extends GetView<ProfileController> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SafeArea(
-          child: Container(
+          child: SizedBox(
         height: 100.h,
         width: 100.w,
         child: Obx(
@@ -31,7 +31,7 @@ class ProfileView extends GetView<ProfileController> {
                       padding: EdgeInsets.only(left: 5.w, right: 5.w),
                       height: 6.h,
                       width: 100.w,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                           border: Border(
                               bottom: BorderSide(color: Colors.black45))),
                       child: Row(
@@ -50,7 +50,7 @@ class ProfileView extends GetView<ProfileController> {
                             width: 2.5.w,
                           ),
                           Expanded(
-                              child: Container(
+                              child: SizedBox(
                             child: Text(
                               "Profile",
                               style: TextStyle(
@@ -82,7 +82,7 @@ class ProfileView extends GetView<ProfileController> {
                                     image: DecorationImage(
                                         fit: BoxFit.cover,
                                         image: FileImage(
-                                            controller.picked_image!))),
+                                            controller.pickedImage!))),
                               ),
                       ),
                     ),
@@ -154,7 +154,7 @@ class ProfileView extends GetView<ProfileController> {
                           FilteringTextInputFormatter.digitsOnly
                         ],
                         onChanged: (value) {
-                          if (controller.contactno.text.length == 0) {
+                          if (controller.contactno.text.isEmpty) {
                           } else {
                             if (controller.contactno.text[0] != "9" ||
                                 controller.contactno.text.length > 10) {
@@ -198,17 +198,17 @@ class ProfileView extends GetView<ProfileController> {
       )),
       bottomNavigationBar: Obx(
         () => controller.isLoading.value == true
-            ? SizedBox()
+            ? const SizedBox()
             : InkWell(
                 onTap: () {
                   if (controller.firstname.text.isEmpty ||
                       controller.lastname.text.isEmpty ||
                       controller.contactno.text.isEmpty) {
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                       content: Text('Please provide all the information'),
                     ));
                   } else if (controller.contactno.text.length != 10) {
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                       content: Text('Please enter a valid contact number'),
                     ));
                   } else {

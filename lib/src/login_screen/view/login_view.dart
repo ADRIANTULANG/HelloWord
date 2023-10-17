@@ -29,7 +29,7 @@ class LoginView extends GetView<LoginController> {
               child: Container(
                 height: 35.h,
                 width: 100.w,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     image: DecorationImage(
                         fit: BoxFit.contain,
                         image: AssetImage("assets/images/logo.png"))),
@@ -121,7 +121,7 @@ class LoginView extends GetView<LoginController> {
                   ),
                   InkWell(
                     onTap: () async {
-                      Get.to(() => RegistrationView());
+                      Get.to(() => const RegistrationView());
                     },
                     child: Text(
                       "Sign up.",

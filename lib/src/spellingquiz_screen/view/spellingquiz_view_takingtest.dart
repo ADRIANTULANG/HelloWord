@@ -13,7 +13,7 @@ class SpellingQuizTakingQuiz extends GetView<SpellingQuizController> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       child: Column(children: [
         SizedBox(
             width: 100.w,
@@ -36,7 +36,7 @@ class SpellingQuizTakingQuiz extends GetView<SpellingQuizController> {
             carouselController: controller.carouselController,
             options: CarouselOptions(
               onPageChanged: (index, reason) {
-                controller.current_index.value = index;
+                controller.currentIndex.value = index;
                 controller.textInputedController.text =
                     controller.spellings[index].inputedWord.value;
               },
@@ -52,7 +52,7 @@ class SpellingQuizTakingQuiz extends GetView<SpellingQuizController> {
                           border: Border.all(),
                           color: Colors.lightBlue[100],
                           borderRadius: BorderRadius.circular(8),
-                          boxShadow: [
+                          boxShadow: const [
                             BoxShadow(
                                 color: Colors.grey,
                                 blurRadius: 5,
@@ -85,7 +85,7 @@ class SpellingQuizTakingQuiz extends GetView<SpellingQuizController> {
                               controller: controller.textInputedController,
                               onChanged: (value) {
                                 controller
-                                    .spellings[controller.current_index.value]
+                                    .spellings[controller.currentIndex.value]
                                     .inputedWord
                                     .value = value.toString();
                               },
@@ -123,7 +123,7 @@ class SpellingQuizTakingQuiz extends GetView<SpellingQuizController> {
                 width: 15.w,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
-                    boxShadow: [
+                    boxShadow: const [
                       BoxShadow(
                           color: Colors.grey,
                           blurRadius: 5,
@@ -133,13 +133,13 @@ class SpellingQuizTakingQuiz extends GetView<SpellingQuizController> {
                     border: Border.all(width: 2),
                     shape: BoxShape.circle,
                     color: Colors.lightBlue),
-                child: Icon(Icons.arrow_back_ios_new),
+                child: const Icon(Icons.arrow_back_ios_new),
               ),
             ),
             Obx(
-              () => Text((controller.current_index.value + 1).toString() +
-                  " / " +
-                  controller.spellings.length.toString()),
+              () => Text(
+                "${(controller.currentIndex.value + 1).toString()} / ${controller.spellings.length.toString()}",
+              ),
             ),
             InkWell(
               onTap: () {
@@ -150,7 +150,7 @@ class SpellingQuizTakingQuiz extends GetView<SpellingQuizController> {
                 width: 15.w,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
-                    boxShadow: [
+                    boxShadow: const [
                       BoxShadow(
                           color: Colors.grey,
                           blurRadius: 5,
@@ -160,7 +160,7 @@ class SpellingQuizTakingQuiz extends GetView<SpellingQuizController> {
                     border: Border.all(width: 2),
                     shape: BoxShape.circle,
                     color: Colors.lightBlue),
-                child: Icon(Icons.arrow_forward_ios),
+                child: const Icon(Icons.arrow_forward_ios),
               ),
             )
           ],
