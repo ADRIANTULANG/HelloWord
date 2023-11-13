@@ -111,6 +111,12 @@ class GrammarQuizController extends GetxController {
           .get();
       // check if user has already score record in the spelling collection
       if (isUserExist.docs.isNotEmpty) {
+        // update the answer of the user.
+        await FirebaseFirestore.instance
+            .collection('grammarscore')
+            .doc(isUserExist.docs[0].id)
+            .update({"score": correctAnswer});
+      } else {
         var userDocumentReference = FirebaseFirestore.instance
             .collection('users')
             .doc(userres.docs[0].id);
@@ -120,12 +126,6 @@ class GrammarQuizController extends GetxController {
           "difficulty": groupValueDifficulty.value,
           "language": groupValueLanguage.value,
         });
-      } else {
-        // update the answer of the user.
-        await FirebaseFirestore.instance
-            .collection('grammarscore')
-            .doc(isUserExist.docs[0].id)
-            .update({"score": correctAnswer});
       }
     }
     isSubmitting(false);
