@@ -18,6 +18,7 @@ class GrammarModel {
   List<String> options;
   bool isActive;
   String documentId;
+  String category;
   String difficulty;
   String language;
   RxString selectedAnswer;
@@ -31,11 +32,13 @@ class GrammarModel {
     required this.difficulty,
     required this.language,
     required this.selectedAnswer,
+    required this.category,
   });
 
   factory GrammarModel.fromJson(Map<String, dynamic> json) => GrammarModel(
         sentence: json["sentence"],
         answer: json["answer"],
+        category: json["category"],
         options: List<String>.from(json["options"].map((x) => x)),
         isActive: json["isActive"],
         documentId: json["documentID"],
@@ -49,6 +52,7 @@ class GrammarModel {
         "answer": answer,
         "difficulty": difficulty,
         "language": language,
+        "category": category,
         "selectedAnswer": selectedAnswer,
         "options": List<dynamic>.from(options.map((x) => x)),
         "isActive": isActive,

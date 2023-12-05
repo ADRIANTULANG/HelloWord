@@ -148,7 +148,10 @@ class HomeAdminGrammarListView extends GetView<AdminHomeController> {
                                   ),
                                   InkWell(
                                     onTap: () {
+                                      controller.selectedCategory.value = '';
                                       Get.to(() => AdminHomeGrammarUpdateItem(
+                                          categoryName: controller
+                                              .grammarList[index].category,
                                           documentID: controller
                                               .grammarList[index].documentId,
                                           listofoptions: controller

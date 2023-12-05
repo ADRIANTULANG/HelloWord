@@ -7,6 +7,7 @@ import 'package:teachlang/src/adminhome_screen/view/adminhome_spelling_listview.
 
 import '../../../config/textstyle.dart';
 import '../controller/adminhome_controller.dart';
+import 'admin_home_category_list.dart';
 import 'adminhome_grammar_listview.dart';
 
 class AdmiHomeView extends GetView<AdminHomeController> {
@@ -109,6 +110,46 @@ class AdmiHomeView extends GetView<AdminHomeController> {
                     ),
                     Text(
                       "Spelling Quiz Items",
+                      style: Styles.normalBold,
+                    )
+                  ]),
+            ),
+          ),
+        ),
+        SizedBox(
+          height: 3.h,
+        ),
+        Padding(
+          padding: EdgeInsets.only(left: 5.w, right: 5.w),
+          child: InkWell(
+            onTap: () {
+              Get.to(() => const AdminCategoryView());
+              // controller.updateDate();
+            },
+            child: Container(
+              height: 20.h,
+              width: 100.w,
+              decoration: BoxDecoration(
+                  border: Border.all(),
+                  color: Colors.lightBlue,
+                  borderRadius: BorderRadius.circular(8),
+                  boxShadow: const [
+                    BoxShadow(
+                        color: Colors.grey,
+                        blurRadius: 5,
+                        spreadRadius: 3,
+                        offset: Offset(1, 2))
+                  ]),
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    SvgPicture.asset(
+                      CustomIcons.cat,
+                      width: 10.w,
+                      height: 10.h,
+                    ),
+                    Text(
+                      "Category",
                       style: Styles.normalBold,
                     )
                   ]),

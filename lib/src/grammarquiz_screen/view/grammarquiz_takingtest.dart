@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 import 'package:teachlang/src/grammarquiz_screen/controller/grammarquiz_controller.dart';
-
 import '../../../config/textstyle.dart';
 
 class GrammarQuizTakingTest extends GetView<GrammarQuizController> {
@@ -22,6 +21,17 @@ class GrammarQuizTakingTest extends GetView<GrammarQuizController> {
                     style: Styles.normalBold,
                   ),
                   Obx(() => Text(controller.remainingTime.value.toString())),
+                ],
+              )),
+          SizedBox(
+              width: 100.w,
+              child: Row(
+                children: [
+                  Text(
+                    "Selected category - ",
+                    style: Styles.normalBold,
+                  ),
+                  Obx(() => Text(controller.selectedCategory.value)),
                 ],
               )),
           SizedBox(

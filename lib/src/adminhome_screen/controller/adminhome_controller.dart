@@ -1,10 +1,12 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:teachlang/model/spelling_model.dart';
 
+import '../../../model/categories_model.dart';
 import '../../../model/grammar_model.dart';
 
 class AdminHomeController extends GetxController {
@@ -12,22 +14,23 @@ class AdminHomeController extends GetxController {
   void onInit() {
     getGrammarItems();
     getSpellingItems();
+    getAllCategories();
     super.onInit();
   }
 
   RxList<String> optionsList = <String>[].obs;
+  RxList<String> catList = <String>[].obs;
 
+  RxList<Categories> categoriesList = <Categories>[].obs;
   RxList<GrammarModel> grammarList = <GrammarModel>[].obs;
   RxList<SpellingsModel> spellingList = <SpellingsModel>[].obs;
-
   TextEditingController optionText = TextEditingController();
   TextEditingController grammarItemText = TextEditingController();
   TextEditingController answerText = TextEditingController();
-
   TextEditingController spellingItemText = TextEditingController();
-
   RxString groupValueLanguage = ''.obs;
   RxString groupValueDifficulty = ''.obs;
+  RxString selectedCategory = ''.obs;
 
   getGrammarItems() async {
     List data = [];
@@ -64,6 +67,7 @@ class AdminHomeController extends GetxController {
   grammarSaveItem() async {
     try {
       await FirebaseFirestore.instance.collection('grammar').add({
+        "category": selectedCategory.value,
         "answer": answerText.text,
         "difficulty": groupValueDifficulty.value,
         "isActive": true,
@@ -92,6 +96,7 @@ class AdminHomeController extends GetxController {
           .collection('grammar')
           .doc(documentID)
           .update({
+        "category": selectedCategory.value,
         "answer": answerText.text,
         "difficulty": groupValueDifficulty.value,
         "isActive": true,
@@ -191,15 +196,62 @@ class AdminHomeController extends GetxController {
     }
   }
 
+  getAllCategories() async {
+    try {
+      var res = await FirebaseFirestore.instance.collection("category").get();
+      var categories = res.docs;
+      List list = [];
+      catList.clear();
+      catList.add('');
+      for (var i = 0; i < categories.length; i++) {
+        Map data = categories[i].data();
+        data['id'] = categories[i].id;
+        data['dateTime'] = data['dateTime'].toDate().toString();
+        list.add(data);
+        catList.add(data['name']);
+      }
+      log(jsonEncode(list).toString());
+      categoriesList.assignAll(categoriesFromJson(jsonEncode(list)));
+    } catch (_) {}
+  }
+
+  createCategoryType({required String categoryName}) async {
+    try {
+      await FirebaseFirestore.instance.collection('category').add({
+        "name": categoryName.capitalizeFirst.toString(),
+        "dateTime": Timestamp.now()
+      });
+      getAllCategories();
+      Get.back();
+    } catch (_) {}
+  }
+
+  deleteCategories({required String id}) async {
+    try {
+      await FirebaseFirestore.instance.collection('category').doc(id).delete();
+      getAllCategories();
+    } catch (_) {}
+  }
+
+  updateCategory({required String id, required String catname}) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('category')
+          .doc(id)
+          .update({"name": catname});
+      getAllCategories();
+      Get.back();
+    } catch (_) {}
+  }
+
   // updateDate() async {
-  //   var res = await FirebaseFirestore.instance.collection('spellings').get();
-  //   var spellings = res.docs;
+  //   var res = await FirebaseFirestore.instance.collection('grammar').get();
+  //   var grammar = res.docs;
   //   WriteBatch batch = FirebaseFirestore.instance.batch();
-  //   for (var i = 0; i < spellings.length; i++) {
-  //     var documentRef = await FirebaseFirestore.instance
-  //         .collection('spellings')
-  //         .doc(spellings[i].id);
-  //     batch.update(documentRef, {"dateCreate": Timestamp.now()});
+  //   for (var i = 0; i < grammar.length; i++) {
+  //     var documentRef =
+  //         FirebaseFirestore.instance.collection('grammar').doc(grammar[i].id);
+  //     batch.update(documentRef, {"category": i.isEven ? "Verb" : "Adverb"});
   //   }
   //   await batch.commit();
   // }

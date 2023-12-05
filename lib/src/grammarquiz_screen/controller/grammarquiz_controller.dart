@@ -7,6 +7,7 @@ import 'package:quiver/async.dart';
 import 'package:teachlang/model/grammar_model.dart';
 import 'package:teachlang/src/home_screen/controller/home_controller.dart';
 
+import '../../../model/categories_model.dart';
 import '../widget/grammarquiz_alertdialog.dart';
 
 class GrammarQuizController extends GetxController {
@@ -20,6 +21,15 @@ class GrammarQuizController extends GetxController {
   RxList<GrammarModel> grammarList = <GrammarModel>[].obs;
   RxString groupValueLanguage = ''.obs;
   RxString groupValueDifficulty = ''.obs;
+  RxList<Categories> categoriesList = <Categories>[].obs;
+  RxList<String> catList = <String>[].obs;
+  RxString selectedCategory = ''.obs;
+
+  @override
+  void onInit() {
+    getAllCategories();
+    super.onInit();
+  }
 
   startTimer() async {
     countDownTimer = CountdownTimer(
@@ -70,6 +80,7 @@ class GrammarQuizController extends GetxController {
     var res = await FirebaseFirestore.instance
         .collection('grammar')
         .where('isActive', isEqualTo: true)
+        .where("category", isEqualTo: selectedCategory.value)
         .where('difficulty', isEqualTo: groupValueDifficulty.value)
         .where('language', isEqualTo: groupValueLanguage.value)
         .get();
@@ -139,6 +150,24 @@ class GrammarQuizController extends GetxController {
     GrammarQuizAlertDialog.showMessage(
         score: correctAnswer.toString(), over: grammarList.length.toString());
     Get.find<HomeController>().getScores();
+  }
+
+  getAllCategories() async {
+    try {
+      var res = await FirebaseFirestore.instance.collection("category").get();
+      var categories = res.docs;
+      List list = [];
+      catList.clear();
+      catList.add('');
+      for (var i = 0; i < categories.length; i++) {
+        Map data = categories[i].data();
+        data['id'] = categories[i].id;
+        data['dateTime'] = data['dateTime'].toDate().toString();
+        list.add(data);
+        catList.add(data['name']);
+      }
+      categoriesList.assignAll(categoriesFromJson(jsonEncode(list)));
+    } catch (_) {}
   }
 
   // populateGrammar() async {

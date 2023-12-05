@@ -121,8 +121,52 @@ class GrammarQuizIntroductionView extends GetView<GrammarQuizController> {
         ],
       ),
       SizedBox(
+        height: 2.h,
+      ),
+      SizedBox(
         width: 100.w,
-        height: 40.h,
+        child: Text(
+          "Please select category",
+          style: Styles.normalBold,
+        ),
+      ),
+      SizedBox(
+        height: 1.h,
+      ),
+      Container(
+        height: 6.h,
+        width: 100.w,
+        decoration: BoxDecoration(
+          border: Border.all(),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Obx(
+          () => DropdownButton<String>(
+            value: controller.selectedCategory.value,
+            isExpanded: true,
+            elevation: 16,
+            underline: const SizedBox(),
+            padding: EdgeInsets.only(left: 2.w),
+            onChanged: (String? value) {
+              // This is called when the user selects an item.
+              controller.selectedCategory.value = value!;
+            },
+            items: controller.catList
+                .map<DropdownMenuItem<String>>((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(value),
+              );
+            }).toList(),
+          ),
+        ),
+      ),
+      SizedBox(
+        height: 3.h,
+      ),
+      SizedBox(
+        width: 100.w,
+        height: 25.h,
         child: Align(
           alignment: Alignment.bottomCenter,
           child: InkWell(
